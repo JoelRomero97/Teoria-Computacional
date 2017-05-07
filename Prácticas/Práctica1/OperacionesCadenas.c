@@ -12,6 +12,19 @@ void potencia (char cadena[], int x);
 void suf_pref(char cadena[]);
 void subcadena(char cadena[]);
 
+////////////////////////////////////////////////////////////
+////				OperacionesCadenas.c				////
+////													////
+////													////
+//// Programa que realiza las operaciones básicas con 	////
+//// cadenas, verificar si es palindromo, inversa, 		////
+//// longitud, potencias, muestra sufijos y prefijos	////
+//// subcadenas, utilizando apuntadores.				////
+////													////
+////													////
+//// Autor: Romero Gamarra Joel Mauricio				////
+////////////////////////////////////////////////////////////
+
 int main(int argc, char *argv[]) 
 {
 	char cad[TAM],cad1[TAM],aux[TAM],aux1[TAM];

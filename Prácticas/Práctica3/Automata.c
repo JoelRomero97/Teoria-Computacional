@@ -6,6 +6,19 @@ void pedirQuintupla();
 void pedirCadenas(char expresion[]);
 int validarCadena(char cadena []);
 
+////////////////////////////////////////////////////////////
+////						Automata.c					////
+////													////
+////													////
+//// Autómata que verifica una expresión regular en 	////
+//// particular, (0|1)*11001* mostrando su quintupla al ////
+//// pedir los estados y transiciones, además, verifica ////
+//// cadenas que pertenezcan a esta expresion.			////
+////													////
+////													////
+//// Autor: Romero Gamarra Joel Mauricio				////
+////////////////////////////////////////////////////////////
+
 int main()
 {
 	pedirQuintupla();

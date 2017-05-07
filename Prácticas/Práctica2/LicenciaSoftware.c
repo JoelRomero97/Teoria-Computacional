@@ -6,6 +6,20 @@
 int otraVez();
 void validarLicencia(char licencia[]);
 
+////////////////////////////////////////////////////////////
+////				LicenciaSoftware.c					////
+////													////
+////													////
+//// Verifica la correcta escritura de una licencia de 	////
+//// una licencia de software de acuerdo a restricciones////
+//// propias, todo escrito en mayuscula, separado en 	////
+//// bloques de 4 por un espacio, 16 dígitos y solo 	////
+//// incluya numeros y letras mayusculas.				////
+////													////
+////													////
+//// Autor: Romero Gamarra Joel Mauricio				////
+////////////////////////////////////////////////////////////
+
 int main()
 {
 	char licencia[TAM];

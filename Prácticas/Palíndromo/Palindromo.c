@@ -1,15 +1,28 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-#include "pila.h"
+#include "pila.c"
 
 void palindromo (int n);
+
+////////////////////////////////////////////////////////////
+////					Palindromo.c					////
+////													////
+////													////
+//// Se genera un palindromo automaticamente al darle	////
+//// un valor aleatorio a x, el usuario indica el num 	////
+//// iteraciones que hará el programa, generando un 	////
+//// palíndromo utilizando la estructura pila.			////
+////													////
+////													////
+//// Autor: Romero Gamarra Joel Mauricio				////
+////////////////////////////////////////////////////////////
 
 int main (int argc, char const *argv[])
 {
 	int n;
-	system ("clear");
-	printf ("Â¿Cuantas iteraciones desea?:\t");
+	system ("cls");
+	printf ("%cCuantas iteraciones desea?:\t", 168);
 	scanf ("%d",&n);
 	palindromo(n);
 	return 0;
@@ -24,7 +37,7 @@ void palindromo (int n)
 	srand(time(NULL));
 	for (i = 0; i < n; i++)
 	{
-		x = rand()%100;
+		x = rand()%10;
 		D.p = x;E.p = x;
 		if (i == 0)
 		{
@@ -38,7 +51,7 @@ void palindromo (int n)
 			}
 			push (&auxiliar, E);
 		}
-		printf("IteraciÃ³n #%d\nValor de x:\t%d\nPalÃ­ndromo:\t", i+1, x);
+		printf("Iteraci%cnn #%d\nValor de x:\t%d\nPal%cndromo:\t", 162, i+1, x, 161);
 		while (!empty (auxiliar))
 		{
 			printf ("%d", top (auxiliar).p);
