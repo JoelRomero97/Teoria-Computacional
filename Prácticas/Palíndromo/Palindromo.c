@@ -5,18 +5,18 @@
 
 void palindromo (int n);
 
-////////////////////////////////////////////////////////////
-////					Palindromo.c					////
-////													////
-////													////
-//// Se genera un palindromo automaticamente al darle	////
-//// un valor aleatorio a x, el usuario indica el num 	////
-//// iteraciones que hará el programa, generando un 	////
-//// palíndromo utilizando la estructura pila.			////
-////													////
-////													////
-//// Autor: Romero Gamarra Joel Mauricio				////
-////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////
+////								Palindromo.c 									////
+////																				////
+////																				////
+//// Se genera un palíndromo automáticamente al asignarle un valor aleatorio a un 	////
+//// entero "x", donde el usuario indica el número de iteraciones que el programa	////
+//// realizará, asignando el valor de x al inicio y al final de la cadena obtenida	////
+//// en la iteración anterior para que sea un palíndromo.							////
+////																				////
+////																				////
+//// Autor: Romero Gamarra Joel Mauricio											////
+////////////////////////////////////////////////////////////////////////////////////////
 
 int main (int argc, char const *argv[])
 {
@@ -31,7 +31,7 @@ int main (int argc, char const *argv[])
 void palindromo (int n)
 {
 	int i, x;
-	pila principal, auxiliar, final;
+	pila principal, auxiliar;
 	NODO D, E;
 	ini_pila (&principal);ini_pila (&auxiliar);		//Inicializamos ambas pilas
 	srand(time(NULL));

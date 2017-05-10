@@ -4,20 +4,18 @@
 
 void leer(FILE *pt);
 
-////////////////////////////////////////////////////////////
-////					Parentesis.c					////
-////													////
-////													////
-//// Revisa el correcto balanceo de parentesis, llaves 	////
-//// y corchetes, es decir que para cada simbolo de 	////
-//// apertura haya uno de cierre, además, que estos 	////
-//// correspondan con su igual en el de apertura, nos 	////
-//// indica que tipo de error tenemos y por que no 		////
-//// esta correcto el balanceo usando archivos.			////
-////													////
-////													////
-//// Autor: Romero Gamarra Joel Mauricio				////
-////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////
+////								Parentesis.c 									////
+////																				////
+////																				////
+//// Revisa el correcto balanceo de parentesis, llaves 	y corchetes, es decir que	////
+//// para cada símbolo de apertura que se encuentre haya uno de cerradura, además 	////
+//// que estos correspondan con su igual en el de apertura, para esto nos dice que	////
+//// tipo de error tenemos y en que línea se encuentra dicho error.					////
+////																				////
+////																				////
+//// Autor: Romero Gamarra Joel Mauricio											////
+////////////////////////////////////////////////////////////////////////////////////////
 
 int main() {
 	int resp;

@@ -12,18 +12,18 @@ void potencia (char cadena[], int x);
 void suf_pref(char cadena[]);
 void subcadena(char cadena[]);
 
-////////////////////////////////////////////////////////////
-////				OperacionesCadenas.c				////
-////													////
-////													////
-//// Programa que realiza las operaciones básicas con 	////
-//// cadenas, verificar si es palindromo, inversa, 		////
-//// longitud, potencias, muestra sufijos y prefijos	////
-//// subcadenas, utilizando apuntadores.				////
-////													////
-////													////
-//// Autor: Romero Gamarra Joel Mauricio				////
-////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////
+////							OperacionesCadenas.c								////
+////																				////
+////																				////
+//// Programa que realiza las operaciones básicas con cadenas ingresadas por el 	////
+//// usuario, es decir, verifica si es un palíndromo, obtiene su inversa o reflejo,	////
+//// obtiene la longitud de la cadena, calcula su potencia (positivas/negativas), 	////
+//// muestra todas las subcadenas y todos los sufijos y prefijos.					////
+////																				////
+////																				////
+//// Autor: Romero Gamarra Joel Mauricio											////
+////////////////////////////////////////////////////////////////////////////////////////
 
 int main(int argc, char *argv[]) 
 {
