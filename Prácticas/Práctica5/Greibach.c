@@ -3,9 +3,9 @@
 #include "Lista.c"
 
 int OtraVez ();
-boolean Chomsy (char *s);
+boolean Chomsky (char *s);
 void ImprimeLista (lista *l);
-void ConvertirFNG (lista *Lista);
+void ConvertirFNG (lista *Lista); 
 boolean Inalcanzable (lista *lista, elemento E, int n);
 
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -33,7 +33,7 @@ int main(int argc, char const *argv[])
 		printf("\n\nIngrese la producci%cn de %c:\n\n\n%c\t->\t", 162, letra, letra);					//Guardamos el símbolo
 		E.id = letra++;
 		scanf ("%s",E.c);
-		if (!Chomsy (E.c))
+		if (!Chomsky (E.c))
 		{
 			printf("Error, la producci%cn %c%c\t\t->\t%s%c no est%c en FNC\n", 162, 34 ,E.id, E.c, 34, 160);
 			return 0;
@@ -60,19 +60,18 @@ int OtraVez ()
 	return resp;
 }
 
-boolean Chomsy (char *s)
+boolean Chomsky (char *s)
 {
 	char *pt = s;
-	boolean resp;
+	int nMay = 0, nmin = 0;
+	boolean resp = TRUE;
 	for (; *pt != '\0'; pt++)
 	{
 		if ((*pt >= 'a' && *pt <= 'z') || (*pt >= '0' && *pt <= '9'))		//Si es un símbolo TERMINAL
 		{
-			pt++;
-			if (*pt == '\0' || *pt == '|')
+			if (nmin == 0)
 			{
-				resp = TRUE;
-				pt++;
+				nmin++;
 			}else
 			{
 				resp = FALSE;
@@ -80,19 +79,29 @@ boolean Chomsy (char *s)
 			}
 		}else if (*pt >= 'A' && *pt <= 'Z')								//Si es un símbolo NO TERMINAL
 		{
-			pt++;
-			if (*pt >= 'A' && *pt <= 'Z')
+			if (nMay == 0 || nMay == 1)
 			{
-				pt++;
-				if (*pt == '\0' || *pt == '|')
-				{
-					resp = TRUE;
-					pt++;
-				}else
-				{
-					resp = FALSE;
-					break;
-				}
+				nMay++;
+			}else
+			{
+				resp = FALSE;
+				break;
+			}
+		}else if (*pt == '\0')
+		{
+			if ((nMay == 2 || nMay == 0) && (nmin == 1 || nmin == 0))
+			{
+				resp = TRUE;
+			}else
+			{
+				resp = FALSE;
+				break;
+			}
+		}else if (*pt == '|')
+		{
+			if ((nMay == 2 || nMay == 0) && (nmin == 1 || nmin == 0))
+			{
+				nMay = 0; nmin = 0;
 			}else
 			{
 				resp = FALSE;
@@ -101,6 +110,7 @@ boolean Chomsy (char *s)
 		}else
 		{
 			resp = FALSE;
+			break;
 		}
 	}
 	return resp;
