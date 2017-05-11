@@ -5,6 +5,7 @@
 int OtraVez ();
 boolean Chomsy (char *s);
 void ImprimeLista (lista *l);
+void ConvertirFNG (lista *Lista);
 
 ////////////////////////////////////////////////////////////////////////////////////////
 ////									Greibach.c									////
@@ -23,7 +24,6 @@ int main(int argc, char const *argv[])
 	int opc;						//Declaramos un auxiliar para OtraVez ()
 	int letra = 65;					//Declaramos 'letra' con el caracter ASCII 65, equivalente a la letra 'A'
 	lista GLC;						//Declaramos la lista
-	posicion pos;					//Posición para manear las funciones
 	elemento E;						//Elemento para guardar las GLC
 	Initialize (&GLC);				//Inicializamos la lista
 	while (opc != 2)
@@ -42,6 +42,10 @@ int main(int argc, char const *argv[])
 			opc = OtraVez();
 		}
 	}
+	printf("\n\n\nGram%ctica Libre de Contexto en la Forma Normal de Chomsy\n", 160);
+	ImprimeLista (&GLC);
+	//ConvertirFNG (&GLC);			//Convertimos la GLC ingresada por el usuario a Greibach
+	printf("\n\n\nGram%ctica Libre de Contexto en la Forma Normal de Greibach\n", 160);
 	ImprimeLista (&GLC);
 	return 0;
 }
@@ -58,15 +62,16 @@ int OtraVez ()
 boolean Chomsy (char *s)							//Si está en FNC, regresa TRUE
 {
 	char *pt = s;
+	boolean resp;
 	if ((*pt >= 'a' && *pt <= 'z') || (*pt >= '0' && *pt <= '9'))		//Si es un símbolo TERMINAL
 	{
 		pt++;
 		if (*pt == '\0')
 		{
-			return TRUE;
+			resp = TRUE;
 		}else
 		{
-			return FALSE;
+			resp = FALSE;
 		}
 	}else if (*pt >= 'A' && *pt <= 'Z')								//Si es un símbolo NO TERMINAL
 	{
@@ -76,18 +81,21 @@ boolean Chomsy (char *s)							//Si está en FNC, regresa TRUE
 			pt++;
 			if (*pt == '\0')
 			{
-				return TRUE;
+				resp = TRUE;
 			}else
 			{
-				return FALSE;
+				resp = FALSE;
 			}
 		}
+	}else
+	{
+		resp = FALSE;
 	}
+	return resp;
 }
 
 void ImprimeLista (lista *l)
 {
-	posicion p;
 	elemento E;
 	int i,num_elem;
 	num_elem = Size(l);
@@ -105,4 +113,12 @@ void ImprimeLista (lista *l)
 		printf("\nLista Vacia");
 	}
 	return;	
+}
+
+void ConvertirFNG (lista *Lista)
+{
+	posicion p;										//Posicion para manejar las funciones
+	elemento E;
+	int i, nElementos;
+	nElementos = Size (Lista);						//Obtenemos el numero de elementos de la lista
 }
