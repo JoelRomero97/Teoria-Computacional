@@ -3,6 +3,7 @@
 #include "Lista.c"
 
 int OtraVez ();
+boolean Chomsy (char *s);
 void ImprimeLista (lista *l);
 
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -31,8 +32,15 @@ int main(int argc, char const *argv[])
 		printf("\n\nIngrese la producci%cn de %c:\n\n\n%c\t->\t", 162, letra, letra);					//Guardamos el símbolo
 		E.id = letra++;
 		scanf ("%s",E.c);
-		Add (&GLC, E);
-		opc = OtraVez();
+		if (!Chomsy (E.c))
+		{
+			printf("Error, la producci%cn %c%c\t\t->\t%s%c no est%c en FNC\n", 162, 34 ,E.id, E.c, 34, 160);
+			return 0;
+		}else
+		{
+			Add (&GLC, E);
+			opc = OtraVez();
+		}
 	}
 	ImprimeLista (&GLC);
 	return 0;
@@ -45,6 +53,36 @@ int OtraVez ()
 	printf("\n\n1.SI\t\t2.NO\n\n");
 	scanf ("%d",&resp);
 	return resp;
+}
+
+boolean Chomsy (char *s)							//Si está en FNC, regresa TRUE
+{
+	char *pt = s;
+	if ((*pt >= 'a' && *pt <= 'z') || (*pt >= '0' && *pt <= '9'))		//Si es un símbolo TERMINAL
+	{
+		pt++;
+		if (*pt == '\0')
+		{
+			return TRUE;
+		}else
+		{
+			return FALSE;
+		}
+	}else if (*pt >= 'A' && *pt <= 'Z')								//Si es un símbolo NO TERMINAL
+	{
+		pt++;
+		if (*pt >= 'A' && *pt <= 'Z')
+		{
+			pt++;
+			if (*pt == '\0')
+			{
+				return TRUE;
+			}else
+			{
+				return FALSE;
+			}
+		}
+	}
 }
 
 void ImprimeLista (lista *l)
