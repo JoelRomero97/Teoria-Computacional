@@ -4,9 +4,11 @@
 
 int OtraVez ();
 boolean Chomsky (char *s);
-void ImprimeLista (lista *l);
+void ImprimeLista (lista *Lista);
 void ConvertirFNG (lista *Lista); 
-boolean Inalcanzable (lista *lista, elemento E, int n);
+boolean Inalcanzable (lista *Lista, elemento E, int n);
+boolean Unitaria (lista *Lista, elemento E, int n);
+void Reemplazar (lista *Lista, elemento E, int n);
 
 ////////////////////////////////////////////////////////////////////////////////////////
 ////									Greibach.c									////
@@ -116,16 +118,16 @@ boolean Chomsky (char *s)
 	return resp;
 }
 
-void ImprimeLista (lista *l)
+void ImprimeLista (lista *Lista)
 {
 	elemento E;
 	int i,num_elem;
-	num_elem = Size(l);
-	if(!Empty (l))
+	num_elem = Size(Lista);
+	if(!Empty (Lista))
 	{
 		for(i = 1; i <= num_elem; i++)
 		{
-			E = Element(l,i);
+			E = Element(Lista,i);
 			printf("\n%c\t->\t%s", E.id, E.c);
 		}
 	}
@@ -147,21 +149,21 @@ void ConvertirFNG (lista *Lista)
 		E = Element (Lista, i);						//Obtenemos cada uno de los elementos de la lista
 		if (Inalcanzable (Lista, E, nElementos))
 		{
-			printf("\nLa produccion de %c es inalcanzable :(", E.id);
 			p = Search (Lista, E);						//Obtenemos la posición de la producción inalcanzable
 			Remove (Lista, p);							//Eliminamos la producción inalcanzable
-			nElementos--;
-		}else
+			nElementos--;i--;
+		}else if (Unitaria (Lista, E, nElementos))
 		{
-			printf("\nLa produccion de %c no es inalcanzable", E.id);
+			//printf("\nLa produccion %c es unitaria", E.id);
+			Reemplazar (Lista, E, nElementos);
 		}
 	}
 }
 
-boolean Inalcanzable (lista *lista, elemento E, int n)
+boolean Inalcanzable (lista *Lista, elemento E, int n)
 {
 	boolean resp = TRUE;
-	int i, bol;
+	int i;
 	char identificador = E.id;
 	elemento auxiliar;
 	char *pt;
@@ -169,7 +171,7 @@ boolean Inalcanzable (lista *lista, elemento E, int n)
 	{
 		for (i = 1; i <= n; i++)
 		{
-			auxiliar = Element (lista, i);					//Obtenemos todos los elementos de la lista
+			auxiliar = Element (Lista, i);					//Obtenemos todos los elementos de la lista
 			pt = auxiliar.c;								//Ponemos un apuntador a la producción de cada elemento de la lista
 			for (; *pt != '\0'; pt++)
 			{
@@ -188,4 +190,55 @@ boolean Inalcanzable (lista *lista, elemento E, int n)
 		resp = FALSE;
 	}
 	return resp;
+}
+
+boolean Unitaria (lista *Lista, elemento E, int n)
+{
+	boolean resp = TRUE;
+	char *pt;
+	int letra = 0;
+	if (E.id != 'A')
+	{
+		for (pt = E.c; *pt != '\0'; pt++)
+		{
+			if (*pt >= 'a' && *pt <= 'z')
+			{
+				letra++;
+				if (letra == 2)						//Si hay más de 2 letras minúsculas
+				{
+					resp = FALSE;
+					break;
+				}
+			}else
+			{
+				resp = FALSE;
+				break;
+			}
+		}
+	}else
+	{
+		resp = FALSE;
+	}
+	return resp;
+}
+
+void Reemplazar (lista *Lista, elemento E, int n)
+{
+	int i;
+	char *pt, *ptr = E.c;
+	posicion pos;
+	elemento auxiliar;
+	for (i = 1; i <= n; i++)
+	{
+		auxiliar = Element (Lista, i);						//Obtenemos todos los elementos de la lista
+		pos = Search (Lista, auxiliar);
+		for (pt = auxiliar.c; *pt != '\0'; pt++)			//Apuntador que recorre toda la producción de todos los elementos de la lista
+		{
+			if (*pt == E.id)
+			{
+				*pt = *ptr;
+			}
+			Replace (Lista, pos, auxiliar);
+		}
+	}
 }
