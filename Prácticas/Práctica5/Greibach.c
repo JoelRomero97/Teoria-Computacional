@@ -46,8 +46,8 @@ int main(int argc, char const *argv[])
 	printf("\n\n\nGram%ctica Libre de Contexto en la Forma Normal de Chomsky\n\n", 160);
 	ImprimeLista (&GLC);
 	ConvertirFNG (&GLC);			//Convertimos la GLC ingresada por el usuario a Greibach
-	//printf("\n\n\nGram%ctica Libre de Contexto en la Forma Normal de Greibach\n\n", 160);
-	//ImprimeLista (&GLC);
+	printf("\n\n\nGram%ctica Libre de Contexto en la Forma Normal de Greibach\n\n", 160);
+	ImprimeLista (&GLC);
 	return 0;
 }
 
@@ -147,31 +147,40 @@ void ConvertirFNG (lista *Lista)
 		E = Element (Lista, i);						//Obtenemos cada uno de los elementos de la lista
 		if (Inalcanzable (Lista, E, nElementos))
 		{
+			printf("\nLa produccion de %c es inalcanzable :(", E.id);
 			p = Search (Lista, E);						//Obtenemos la posición de la producción inalcanzable
 			Remove (Lista, p);							//Eliminamos la producción inalcanzable
+			nElementos--;
 		}else
 		{
-			//printf("\nLa produccion de %c no es inalcanzable", E.id);
+			printf("\nLa produccion de %c no es inalcanzable", E.id);
 		}
 	}
 }
 
 boolean Inalcanzable (lista *lista, elemento E, int n)
 {
-	boolean resp;
-	int i;
+	boolean resp = TRUE;
+	int i, bol;
+	char identificador = E.id;
 	elemento auxiliar;
-	char *pt = E.c;
+	char *pt;
 	if (E.id != 'A')							//Si no es el primer elemento de la lista
 	{
-		if (*pt >= 'A' && *pt <= 'Z')			//Si produce 2 símbolos NO TERMINALES
+		for (i = 1; i <= n; i++)
 		{
-			char *pt1 = pt;
-			pt1++;
-			for (i = 1; i <= n; i++)
+			auxiliar = Element (lista, i);					//Obtenemos todos los elementos de la lista
+			pt = auxiliar.c;								//Ponemos un apuntador a la producción de cada elemento de la lista
+			for (; *pt != '\0'; pt++)
 			{
-				auxiliar = Element (lista, i);
-				//AQUI FALTA TERMINAR LA FUNCION PARA SABER SI ES O NO INALCANZABLE
+				if (*pt >= 'A' && *pt <= 'Z')
+				{
+					if (*pt == identificador)
+					{
+						resp = FALSE;
+						break;
+					}
+				}
 			}
 		}
 	}else
