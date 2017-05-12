@@ -9,6 +9,7 @@ void ConvertirFNG (lista *Lista);
 boolean Inalcanzable (lista *Lista, elemento E, int n);
 boolean Unitaria (lista *Lista, elemento E, int n);
 void Reemplazar (lista *Lista, elemento E, int n);
+void CombinarProduccion (lista *Lista, elemento E, int n);
 
 ////////////////////////////////////////////////////////////////////////////////////////
 ////									Greibach.c									////
@@ -149,15 +150,26 @@ void ConvertirFNG (lista *Lista)
 		E = Element (Lista, i);						//Obtenemos cada uno de los elementos de la lista
 		if (Inalcanzable (Lista, E, nElementos))
 		{
-			p = Search (Lista, E);						//Obtenemos la posición de la producción inalcanzable
-			Remove (Lista, p);							//Eliminamos la producción inalcanzable
-			nElementos--;i--;
+			//p = Search (Lista, E);						//Obtenemos la posición de la producción inalcanzable
+			//Remove (Lista, p);							//Eliminamos la producción inalcanzable
+			//nElementos--;i--;
 		}else if (Unitaria (Lista, E, nElementos))
 		{
-			//printf("\nLa produccion %c es unitaria", E.id);
-			Reemplazar (Lista, E, nElementos);
+			Reemplazar (Lista, E, nElementos);				//Reemplazamos los símbolos de las producciones unitarias donde corresponde
+			//i = 0;										//Volvemos a leer desde el principio de la lista
+			//p = Search (Lista, E);						//Obtenemos la posición de la producción unitaria
+			//Remove (Lista, p);							//Eliminamos la producción unitaria
+			//nElementos--;i--;
 		}
 	}
+	/*for (i = 1; i <= nElementos; i++)
+	{
+		E = Element (Lista, i);
+		if (DosJuntas (Lista, E, nElementos))
+		{
+			//CombinarProduccion (Lista, E, nElementos);
+		}
+	}*/
 }
 
 boolean Inalcanzable (lista *Lista, elemento E, int n)
@@ -234,11 +246,22 @@ void Reemplazar (lista *Lista, elemento E, int n)
 		pos = Search (Lista, auxiliar);
 		for (pt = auxiliar.c; *pt != '\0'; pt++)			//Apuntador que recorre toda la producción de todos los elementos de la lista
 		{
-			if (*pt == E.id)
+			if (*pt == E.id && (*(pt - 1) == '|' || *(pt - 1) == '\0'))
 			{
 				*pt = *ptr;
 			}
 			Replace (Lista, pos, auxiliar);
 		}
+	}
+}
+
+void CombinarProduccion (lista *Lista, elemento E, int n)
+{
+	elemento auxiliar;
+	int i;
+	posicion pos;
+	for (i = 1; i <= n; i++)
+	{
+		auxiliar = Element (Lista, i);							//Obtenemos todos los elementos de la lista
 	}
 }
