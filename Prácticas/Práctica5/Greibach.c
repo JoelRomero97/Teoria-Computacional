@@ -5,10 +5,12 @@
 int OtraVez ();
 boolean Chomsky (char *s);
 void ImprimeLista (lista *Lista);
-void ConvertirFNG (lista *Lista); 
+void LimpiarGramatica (lista *Lista); 
 boolean Inalcanzable (lista *Lista, elemento E, int n);
 boolean Unitaria (lista *Lista, elemento E, int n);
 void Reemplazar (lista *Lista, elemento E, int n);
+boolean LetraMayuscula (lista *Lista, elemento E, int n);
+void ConvertirFNG (lista *Lista);
 void CombinarProduccion (lista *Lista, elemento E, int n);
 
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -29,7 +31,7 @@ int main(int argc, char const *argv[])
 	int letra = 65;					//Declaramos 'letra' con el caracter ASCII 65, equivalente a la letra 'A'
 	lista GLC;						//Declaramos la lista
 	elemento E;						//Elemento para guardar las GLC
-	Initialize (&GLC);				//Inicializamos la lista
+	Initialize (&GLC);			//Inicializamos la lista
 	while (opc != 2)
 	{
 		system ("cls");
@@ -48,7 +50,8 @@ int main(int argc, char const *argv[])
 	}
 	printf("\n\n\nGram%ctica Libre de Contexto en la Forma Normal de Chomsky\n\n", 160);
 	ImprimeLista (&GLC);
-	ConvertirFNG (&GLC);			//Convertimos la GLC ingresada por el usuario a Greibach
+	LimpiarGramatica (&GLC);			//Limpiamos la gramática
+	ConvertirFNG (&GLC);
 	printf("\n\n\nGram%ctica Libre de Contexto en la Forma Normal de Greibach\n\n", 160);
 	ImprimeLista (&GLC);
 	return 0;
@@ -139,7 +142,7 @@ void ImprimeLista (lista *Lista)
 	return;	
 }
 
-void ConvertirFNG (lista *Lista)
+void LimpiarGramatica (lista *Lista)
 {
 	posicion p;										//Posicion para manejar las funciones
 	elemento E;
@@ -150,24 +153,22 @@ void ConvertirFNG (lista *Lista)
 		E = Element (Lista, i);						//Obtenemos cada uno de los elementos de la lista
 		if (Inalcanzable (Lista, E, nElementos))
 		{
-			//p = Search (Lista, E);						//Obtenemos la posición de la producción inalcanzable
-			//Remove (Lista, p);							//Eliminamos la producción inalcanzable
-			//nElementos--;i--;
+			p = Search (Lista, E);						//Obtenemos la posición de la producción inalcanzable
+			Remove (Lista, p);							//Eliminamos la producción inalcanzable
+			nElementos--;i--;
 		}else if (Unitaria (Lista, E, nElementos))
 		{
 			Reemplazar (Lista, E, nElementos);				//Reemplazamos los símbolos de las producciones unitarias donde corresponde
-			//i = 0;										//Volvemos a leer desde el principio de la lista
-			//p = Search (Lista, E);						//Obtenemos la posición de la producción unitaria
-			//Remove (Lista, p);							//Eliminamos la producción unitaria
-			//nElementos--;i--;
+			//i--;
 		}
 	}
 	/*for (i = 1; i <= nElementos; i++)
 	{
 		E = Element (Lista, i);
-		if (DosJuntas (Lista, E, nElementos))
+		if (LetraMayuscula (Lista, E, nElementos))
 		{
-			//CombinarProduccion (Lista, E, nElementos);
+			printf("La produccion %c tiene 2 mayusculas\n", E.id);
+			//ConvertirFNG (Lista, E, nElementos);
 		}
 	}*/
 }
@@ -255,13 +256,60 @@ void Reemplazar (lista *Lista, elemento E, int n)
 	}
 }
 
+boolean LetraMayuscula (lista *Lista, elemento E, int n)
+{
+	char *pt = E.c;
+	int mayus = 0;
+	boolean resp = FALSE;
+	for (; *pt != '\0'; pt++)
+	{
+		if (*pt >= 'A' && *pt <= 'Z')
+		{
+			mayus++;
+		}else if ((*pt == '|' || *pt == '\0') && mayus != 2)
+		{
+			mayus = 0;
+		}else if (mayus == 2)
+		{
+			resp = TRUE;;
+			break;
+		}
+	}
+	return resp;
+}
+
+void ConvertirFNG (lista *Lista)
+{
+	elemento E;
+	int i, nElementos;
+	nElementos = Size (Lista);
+	posicion pos;
+	for (i = 1; i <= nElementos; i++)
+	{
+		E = Element (Lista, i);							//Obtenemos todos los elementos de la lista
+		if (LetraMayuscula (Lista, E, nElementos))
+		{
+			printf("La produccion %c tiene 2 letras mayusculas\n", E.id);
+			//CombinarProduccion (Lista, E, nElementos);
+		}
+	}
+}
+
 void CombinarProduccion (lista *Lista, elemento E, int n)
 {
-	elemento auxiliar;
+	char *pt = E.c;
+	char *ptr = NULL;
 	int i;
-	posicion pos;
+	elemento auxiliar;
 	for (i = 1; i <= n; i++)
 	{
-		auxiliar = Element (Lista, i);							//Obtenemos todos los elementos de la lista
+		auxiliar = Element (Lista, i);
+		for (; *pt != '\0'; pt++)
+		{
+			if (*pt == auxiliar.id && (*(pt - 1) == '|' || *(pt - 1) == '\0')&& (!Unitaria (Lista, auxiliar, n)))
+			{
+				ptr = auxiliar.c;
+			}
+		}
 	}
 }
