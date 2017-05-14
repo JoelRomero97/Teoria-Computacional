@@ -1,6 +1,6 @@
 #define TRUE 1
 #define FALSE 0
-#define TAM 25
+#define TAM 35
 
 //Estructura elemento (Modificable por el usuario)
 typedef struct elemento

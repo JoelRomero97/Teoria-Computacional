@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "Lista.c"
 
 int OtraVez ();
@@ -162,15 +163,6 @@ void LimpiarGramatica (lista *Lista)
 			//i--;
 		}
 	}
-	/*for (i = 1; i <= nElementos; i++)
-	{
-		E = Element (Lista, i);
-		if (LetraMayuscula (Lista, E, nElementos))
-		{
-			printf("La produccion %c tiene 2 mayusculas\n", E.id);
-			//ConvertirFNG (Lista, E, nElementos);
-		}
-	}*/
 }
 
 boolean Inalcanzable (lista *Lista, elemento E, int n)
@@ -283,33 +275,54 @@ void ConvertirFNG (lista *Lista)
 	elemento E;
 	int i, nElementos;
 	nElementos = Size (Lista);
-	posicion pos;
 	for (i = 1; i <= nElementos; i++)
 	{
 		E = Element (Lista, i);							//Obtenemos todos los elementos de la lista
 		if (LetraMayuscula (Lista, E, nElementos))
 		{
-			printf("La produccion %c tiene 2 letras mayusculas\n", E.id);
-			//CombinarProduccion (Lista, E, nElementos);
+			CombinarProduccion (Lista, E, nElementos);
 		}
 	}
 }
 
 void CombinarProduccion (lista *Lista, elemento E, int n)
 {
-	char *pt = E.c;
-	char *ptr = NULL;
+	char nueva[35], *pt = E.c, *ptr, *apuntador = nueva;
 	int i;
-	elemento auxiliar;
-	for (i = 1; i <= n; i++)
+	elemento elementoFinal, auxiliar;
+	elementoFinal.id = E.id;
+	posicion pos;
+	pos = Search (Lista, E);
+	for (; *pt != '\0'; pt++)				//Recorremos toda la producción del elemento que no está en Greibach
 	{
-		auxiliar = Element (Lista, i);
-		for (; *pt != '\0'; pt++)
+		for (i = 1; i <= n; i++)			//Obtenemos todos los elementos de la lista
 		{
-			if (*pt == auxiliar.id && (*(pt - 1) == '|' || *(pt - 1) == '\0')&& (!Unitaria (Lista, auxiliar, n)))
-			{
-				ptr = auxiliar.c;
-			}
+			auxiliar = Element (Lista, i);
+			if (*pt == auxiliar.id)
+				break;
+		}
+		if (*pt == auxiliar.id)
+			break;
+	}
+	pt++;									//Ya está apuntando a C
+	for (ptr = auxiliar.c; *ptr != '\0'; ptr++)			//Recorremos desde el principio la cadena del elemento que vamos a sustituir en E.c
+	{
+		if ((*ptr >= 'a' && *ptr <= 'z') || (*ptr >= 'A' && *ptr <= 'Z'))
+		{
+			*apuntador++ = *ptr;
+		}else if (*ptr == '|')
+		{
+			*apuntador++ = *pt;
+			*apuntador++ = *ptr;
 		}
 	}
+	*apuntador++ = *pt++;
+	printf("\n\n\n\n");
+	for (; *pt != '\0'; pt++)
+	{
+		*apuntador++ = *pt;
+	}
+	*apuntador = '\0';
+	strcpy (elementoFinal.c, nueva);
+	Replace (Lista, pos, elementoFinal);
 }
