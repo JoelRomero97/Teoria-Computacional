@@ -32,14 +32,23 @@ int main(int argc, char const *argv[])
 	FILE *pt;
 	char * expresion = (char *) malloc (sizeof (char *));;
 	pt = fopen ("Septupla.txt", "r");
+	MENU:
 	system ("cls");
 	printf("%cQue desea hacer?\n", 168);
 	printf("\n1.Mostrar septupla\t\t2.Ingresar Cadenas\n\n");
 	scanf ("%d", &x);
-	system ("cls");
 	if (x == 1)
+	{
+		system ("cls");
 		ImprimirSeptupla (pt);
-	else
+		printf("%cDesea regresar al menu principal?\n", 168);
+		printf("1.SI\t\t2.NO\n\n");
+		scanf ("%d", &opc);
+		if (opc == 1)
+			goto MENU;
+		else
+			return 0;
+	}else
 	{
 		while (opc != 2)
 		{
@@ -91,41 +100,45 @@ booleano verificarCadena (char * cadena)
 	push (&stack, D);
 	for (; *pt != '\0'; pt++)
 	{
-		/*if ((*pt == '1') && (empty (stack)))
+		if (*pt == '1')
 		{
-			printf("Encontramos un 1\n");
-			D.x = 'U';
-			push(&stack, D);
-		}else if ((*pt == '0') && (empty (stack)))
+			if (top (stack).x == 'Z')
+			{
+				D.x = 'U';
+				push (&stack, D);
+			}else if (top (stack).x == 'U')
+			{
+				D.x = 'U';
+				push (&stack, D);
+			}else
+			{
+				pop (&stack);
+			}
+		}else if (*pt == '0')
 		{
-			D.x = 'C';
-			push(&stack, D);
-		}else if ((*pt == '1') && (top (stack).x == '1'))
-		{
-			D.x = 'U';
-			push(&stack, D);
-		}else if ((*pt == '0') && (top (stack).x == '0'))
-		{
-			D.x = 'C';
-			push(&stack, D);
-		}else if ((*pt == '1') && (top (stack).x == '0'))
-		{
-			printf ("Se va a sacar:\t%c", pop (&stack).x);
-		}else if ((*pt == '0') && (top (stack).x == '1'))
-		{
-			printf ("Se va a sacar:\t%c", pop (&stack).x);
-		}else if (*pt != '0' && *pt != '1')
+			if (top (stack).x == 'Z')
+			{
+				D.x = 'C';
+				push (&stack, D);
+			}else if (top (stack).x == 'C')
+			{
+				D.x = 'C';
+				push (&stack, D);
+			}else
+			{
+				pop (&stack);
+			}
+		}else 
 		{
 			printf("La expresion no corresponde al alfabeto de entrada.\n");
 			resp = FALSE;
 			break;
-		}*/
+		}
 		printf("El tope de la pila es:\t%c\n", top(stack).x);
 	}
-	printf("El fondo de la pila es:\t%c\n", top(stack).x);
-	/*if (top (stack).x == 'Z')
+	if (top (stack).x == 'Z')
 		resp = TRUE;
 	else
-		resp = FALSE;*/
+		resp = FALSE;
 	return resp;
 }
