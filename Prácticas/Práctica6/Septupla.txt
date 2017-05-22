@@ -1,6 +1,1 @@
-q0,q1
-0,1
-C,U,Z
-q0
-Z
-q1
+{q0,q1},{0,1},{TablaTransiciones},{C,U,Z},{q0},{Z},{q1}
