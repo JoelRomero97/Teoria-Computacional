@@ -7,10 +7,9 @@
 void ImprimirSeptupla (FILE * pt);
 booleano verificarCadena (char * cadena);
 
-typedef unsigned char boolean;
 typedef struct septupla 																//Estructura para almacenar septupla del automata
 {
-	char p [MAX];
+	char sept [MAX];
 }septupla;
 
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -74,8 +73,8 @@ void ImprimirSeptupla (FILE * pt)
 {
 	char c;
 	septupla automata;													//Estructura de tipo septupla
-	fgets (automata.p, 56, pt);
-	printf("\n\nP = ( %s )\n\n", automata.p);
+	fgets (automata.sept, 56, pt);
+	printf("\n\nP = ( %s )\n\n", automata.sept);
 	printf("\n\nTabla de transiciones\n");
 	fclose (pt);
 	pt = fopen ("TablaTransiciones.txt", "r");
@@ -92,6 +91,7 @@ void ImprimirSeptupla (FILE * pt)
 booleano verificarCadena (char * cadena)
 {
 	char *pt = cadena;
+	int i = 1;
 	pila stack;
 	booleano resp = FALSE;
 	ini_pila (&stack);
@@ -102,31 +102,25 @@ booleano verificarCadena (char * cadena)
 	{
 		if (*pt == '1')
 		{
-			if (top (stack).x == 'Z')
+			if ((top (stack).x == 'Z') || top (stack).x == 'U')
 			{
 				D.x = 'U';
-				push (&stack, D);
-			}else if (top (stack).x == 'U')
-			{
-				D.x = 'U';
+				printf("Se va a insertar '%c' en la pila.\n", D.x);
 				push (&stack, D);
 			}else
 			{
-				pop (&stack);
+				printf ("Se va a sacar '%c' de la pila.\n", pop (&stack).x);
 			}
 		}else if (*pt == '0')
 		{
-			if (top (stack).x == 'Z')
+			if ((top (stack).x == 'Z') || (top (stack).x == 'C'))
 			{
 				D.x = 'C';
-				push (&stack, D);
-			}else if (top (stack).x == 'C')
-			{
-				D.x = 'C';
+				printf("Se va a insertar '%c' en la pila.\n", D.x);
 				push (&stack, D);
 			}else
 			{
-				pop (&stack);
+				printf ("Se va a sacar '%c' de la pila.\n", pop (&stack).x);
 			}
 		}else 
 		{
@@ -134,7 +128,7 @@ booleano verificarCadena (char * cadena)
 			resp = FALSE;
 			break;
 		}
-		printf("El tope de la pila es:\t%c\n", top(stack).x);
+		printf("El tope de la pila en la iteracion %d es:\t%c\n\n", i++, top(stack).x);
 	}
 	if (top (stack).x == 'Z')
 		resp = TRUE;
