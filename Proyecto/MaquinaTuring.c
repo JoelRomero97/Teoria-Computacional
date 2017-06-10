@@ -8,8 +8,21 @@
 #define LIM_Y 21
 
 void gotoxy(int x, int y);
-void encerrarCadenas (char * c, int n);
+void encerrarCadena (char * c);
 void recorrerCabezalDerecha (char * c, int x);
+
+////////////////////////////////////////////////////////////////////////////////////////
+////								MaquinaTuring.c									////
+////																				////
+////																				////
+//// Maquina de Turing simulando una cinta para encerrar los numeros binarios que 	////
+//// ingrese el usuario, y posteriormente con un apuntador a la cadena del numero 	////
+//// se simula el cabezal que se mueve en las 2 cadenas, y por ultimo, en la tercer	////
+//// cinta se muestra el resultado de la suma.										////
+////																				////
+////																				////
+//// Autor: Romero Gamarra Joel Mauricio											////
+////////////////////////////////////////////////////////////////////////////////////////
 
 int main(int argc, char const *argv[])
 {
@@ -17,7 +30,7 @@ int main(int argc, char const *argv[])
 	char *c = (char *)malloc(sizeof(char));
 	printf("Ingresa una palabra:\t");
 	scanf("%s",c);
-	encerrarCadenas(c);
+	encerrarCadena(c);
 	return 0;
 }
 
@@ -31,7 +44,7 @@ void gotoxy(int x, int y)
       SetConsoleCursorPosition(hcon,dwPos);
 }
 
-void encerrarCadenas (char * c, int n)
+void encerrarCadena (char *c)
 {
 	int longitudPalabra, numGuiones, x, i;
 	longitudPalabra = strlen(c);					//Obtenemos la longitud de la cadena
@@ -56,7 +69,7 @@ void encerrarCadenas (char * c, int n)
 	recorrerCabezalDerecha(c, x);
 }
 
-void recorrerCabezalDerecha (char * c, int x)
+void recorrerCabezalDerecha (char *c, int x)
 {
 	int j = x + 1;
 	char * pt = c;
@@ -67,6 +80,8 @@ void recorrerCabezalDerecha (char * c, int x)
 		Sleep(700);
 		gotoxy(j, 13);
 		printf(" ");
+		gotoxy(j, 11);
+		printf("1");
 		j++;j++;
 		gotoxy(j, 13);
 	}
