@@ -36,6 +36,7 @@ int main(int argc, char const *argv[])
 	printf("Ingresa el segundo numero:\t");
 	scanf("%s",num2);
 	encerrarNumeros(num1, num2);
+	gotoxy (5,19);
 	return 0;
 }
 
@@ -98,7 +99,6 @@ void encerrarNumeros (char * num1, char * num2)
 	{
 		printf("%c",238);
 	}
-
 	realizarSuma(num1, num2, x1, x2);
 }
 
