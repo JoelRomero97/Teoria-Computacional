@@ -3,14 +3,17 @@
 #include <string.h>
 #include <conio.h>
 #include <windows.h>
+#include <math.h>
 #include <time.h>
 #define LIM_X 90
 #define LIM_Y 21
 
 void gotoxy(int x, int y);
+char * binarioDecimal (int x);
+int decimalBinario (char * x);
 void encerrarNumeros (char * num1, char * num2);
 char * suma (char * num1, char * num2);
-void animacion (char * num1, char * num2, int x1, int x2, char * resultado);
+void animacion (char * num1, char * num2, int x1, int x2, int xR, char * resultado);
 
 ////////////////////////////////////////////////////////////////////////////////////////
 ////								MaquinaTuring.c									////
@@ -131,8 +134,12 @@ void encerrarNumeros (char * num1, char * num2)
 	{
 		printf("%c",238);
 	}
-	res = suma (num1, num2);
-	animacion(num1, num2, x1, x2, res);
+	//res = suma (num1, num2);
+	int numero1 = decimalBinario (num1);
+	int numero2 = decimalBinario (num2);
+	int result = numero1 + numero2;
+	res = binarioDecimal (result);
+	animacion(num1, num2, x1, x2, xR, res);
 }
 
 char * suma (char * num1, char * num2)
@@ -198,10 +205,14 @@ char * suma (char * num1, char * num2)
 					{
 						resultado [i ++] = '0';
 						acarreo = 1;
-					}else
+					}else if (*pt1 == '0')
 					{
 						resultado [i ++] = '1';
 						acarreo = 0;
+					}else
+					{
+						printf("No es un numero binario.\n");
+						exit(0);
 					}
 				}
 			}
@@ -262,10 +273,14 @@ char * suma (char * num1, char * num2)
 					{
 						resultado [i ++] = '0';
 						acarreo = 1;
-					}else
+					}else if (*pt2 == '0')
 					{
 						resultado [i ++] = '1';
 						acarreo = 0;
+					}else
+					{
+						printf("No es un numero binario.\n");
+						exit(0);
 					}
 				}
 			}
@@ -276,16 +291,18 @@ char * suma (char * num1, char * num2)
 	{
 		resultado [i ++] = '1';
 	}
-	resultado [i++] = '\0';
+	resultado [i] = '\0';
 	return resultado;
 }
 
-void animacion (char * num1, char * num2, int x1, int x2, char * resultado)
+void animacion (char * num1, char * num2, int x1, int x2, int xR, char * resultado)
 {
 	int j1 = (x1 + (strlen(num1) * 2) - 1);
 	int j2 = (x2 + (strlen (num2) * 2) - 1);
+	int j3 = (xR + (strlen(resultado) * 2) - 1);
 	char * pt1 = num1;
 	char * pt2 = num2;
+	char * pt3 = resultado;
 	int i = 0;
 	for (; *pt1 != '\0'; pt1 ++);
 	for (; *pt2 != '\0'; pt2 ++);
@@ -300,6 +317,8 @@ void animacion (char * num1, char * num2, int x1, int x2, char * resultado)
 				gotoxy (j2, 13);
 				printf ("%c", 140);
 			}
+			gotoxy (j3, 18);
+			printf("%c\n", 140);
 			Sleep (700);
 			gotoxy (j1, 8);
 			printf (" ");
@@ -308,6 +327,10 @@ void animacion (char * num1, char * num2, int x1, int x2, char * resultado)
 				gotoxy (j2, 13);
 				printf (" ");
 			}
+			gotoxy(j3, 18);
+			printf(" ");
+			gotoxy (j3, 16);
+			printf("%c\n", *pt3);
 			gotoxy (j1, 6);
 			printf ("#");
 			if (pt2 > num2)
@@ -315,7 +338,17 @@ void animacion (char * num1, char * num2, int x1, int x2, char * resultado)
 				gotoxy (j2, 11);
 				printf("#");
 			}
-			j1--;j1--;j2--;j2--;pt2--;
+			j1--;j1--;j2--;j2--;pt2--;j3--;j3--;pt3++;
+		}
+		if (*pt3 != '\0')
+		{
+			gotoxy (j3, 18);
+			printf("%c\n", 140);
+			Sleep (700);
+			gotoxy (j3, 18);
+			printf(" ");
+			gotoxy (j3, 16);
+			printf("%c", *pt3);
 		}
 	}else
 	{
@@ -328,6 +361,8 @@ void animacion (char * num1, char * num2, int x1, int x2, char * resultado)
 				gotoxy (j1, 8);
 				printf ("%c", 140);
 			}
+			gotoxy (j3, 18);
+			printf("%c", 140);
 			Sleep (700);
 			gotoxy (j2, 13);
 			printf (" ");
@@ -336,6 +371,10 @@ void animacion (char * num1, char * num2, int x1, int x2, char * resultado)
 				gotoxy (j1, 8);
 				printf (" ");
 			}
+			gotoxy (j3, 18);
+			printf(" ");
+			gotoxy (j3, 16);
+			printf("%c", *pt3);
 			gotoxy (j2, 11);
 			printf ("#");
 			if (pt1 > num1)
@@ -343,8 +382,59 @@ void animacion (char * num1, char * num2, int x1, int x2, char * resultado)
 				gotoxy (j1, 6);
 				printf("#");
 			}		
-			j1--;j1--;j2--;j2--;pt1--;
+			j1--;j1--;j2--;j2--;pt1--;j3--;j3--;pt3++;
+		}
+		if (*pt3 != '\0')
+		{
+			gotoxy (j3, 18);
+			printf("%c\n", 140);
+			Sleep (700);
+			gotoxy (j3, 18);
+			printf(" ");
+			gotoxy (j3, 16);
+			printf("%c", *pt3);
 		}
 	}
-	printf("\n\nEl resultado es:\t%s", resultado);
+}
+
+char * binarioDecimal (int x)
+{
+	char * c = (char *) malloc (sizeof (char));
+	int i = 0;
+	while (x >= 1)
+	{
+		if (x % 2 == 1)
+		{
+			c [i++] = '1';
+			x /= 2;
+		}else
+		{
+			c [i++] = '0';
+			x /= 2;
+		}
+	}
+	c [i] = '\0';
+	return c;
+}
+
+int decimalBinario (char * x)
+{
+	int numeroDecimal = 0;
+	int flag = 0;
+	char *pt = x, *ptr = x;
+	for (; *pt != '\0'; pt++); pt--;								//Mandamos un apuntador al final de la cadena, o a la posicion 2^0
+	for (; pt >= ptr; pt--)
+	{
+		if (*pt == '1')
+		{
+			numeroDecimal += pow (2, flag);							//Si encuentra un 1, sumamos a la variable 2^flag
+		}
+		if (*pt != '0' && *pt != '1')
+		{
+			printf("No es un numero binario.\n");
+			exit(0);
+		}
+		flag++;														//Cada que se mueva a la izquierda, sumamos la potencia del 2
+	}
+	return numeroDecimal;
 }
